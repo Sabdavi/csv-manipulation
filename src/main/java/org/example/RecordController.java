@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,5 +40,10 @@ public class RecordController {
     public ResponseEntity<String> deleteAllRecords() {
         service.deleteAllRecords();
         return ResponseEntity.ok("All records deleted");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RecordDto>> getAllRecords() {
+        return ResponseEntity.ok(service.getAllRecords());
     }
 }

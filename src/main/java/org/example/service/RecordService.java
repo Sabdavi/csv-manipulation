@@ -16,6 +16,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecordService {
@@ -57,5 +58,9 @@ public class RecordService {
 
     public void deleteAllRecords() {
         recordRepository.deleteAll();
+    }
+
+    public List<RecordDto> getAllRecords() {
+        return recordRepository.findAll().stream().map(Record::toRecordDto).collect(Collectors.toList());
     }
 }

@@ -60,10 +60,10 @@ public class TestRecords {
 
         when(repository.findByCode("271636001")).thenReturn(Optional.of(record));
 
-        Optional<RecordDto> result = service.getByCode("271636001");
+        RecordDto result = service.getByCode("271636001");
 
         assertNotNull(result);
-        assertEquals("271636001", result.get().getCode());
+        assertEquals("271636001", result.getCode());
     }
 
     @Test

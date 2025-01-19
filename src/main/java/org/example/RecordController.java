@@ -4,10 +4,8 @@ import org.example.dto.RecordDto;
 import org.example.entity.Record;
 import org.example.service.RecordService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -25,5 +23,15 @@ public class RecordController {
     public ResponseEntity<RecordDto> getByCode(@PathVariable String code) {
         Optional<RecordDto> record = service.getByCode(code);
         return record.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            service.uploadCsv(file);
+            return ResponseEntity.ok("File uploaded successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error processing file: " + e.getMessage());
+        }
     }
 }

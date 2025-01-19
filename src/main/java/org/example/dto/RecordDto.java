@@ -1,39 +1,14 @@
-package org.example.entity;
+package org.example.dto;
 
-import org.example.dto.RecordDto;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "records")
-public class Record {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "source")
+public class RecordDto {
     private String source;
-    @Column(name = "codeListCode")
     private String codeListCode;
-    @Column(name= "code", unique = true)
     private String code;
-    @Column(name = "displayValue")
     private String displayValue;
-    @Column(name = "longDescription")
     private String longDescription;
-    @Column(name = "fromDate")
     private String fromDate;
-    @Column(name = "toDate")
     private String toDate;
-    @Column(name = "sortingPriority")
     private Integer sortingPriority;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSource() {
         return source;
@@ -97,18 +72,5 @@ public class Record {
 
     public void setSortingPriority(Integer sortingPriority) {
         this.sortingPriority = sortingPriority;
-    }
-
-    public RecordDto toRecordDto() {
-        RecordDto recordDto = new RecordDto();
-        recordDto.setSource(this.source);
-        recordDto.setCodeListCode(this.codeListCode);
-        recordDto.setCode(this.code);
-        recordDto.setDisplayValue(this.displayValue);
-        recordDto.setLongDescription(this.longDescription);
-        recordDto.setFromDate(this.fromDate);
-        recordDto.setToDate(this.toDate);
-        recordDto.setSortingPriority(this.sortingPriority);
-        return recordDto;
     }
 }

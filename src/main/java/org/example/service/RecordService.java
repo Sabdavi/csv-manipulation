@@ -5,10 +5,13 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.example.dto.RecordDto;
 import org.example.entity.Record;
+import org.example.exception.CsvProcessingException;
+import org.example.exception.RecordNotFoundException;
 import org.example.repository.RecordRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,11 +29,12 @@ public class RecordService {
         this.recordRepository = recordRepository;
     }
 
-    public Optional<RecordDto> getByCode(String code) {
-        return recordRepository.findByCode(code).map(Record::toRecordDto);
+    public RecordDto getByCode(String code) {
+        return recordRepository.findByCode(code).map(Record::toRecordDto).orElseThrow(()  -> new RecordNotFoundException(code));
     }
 
-    public void uploadCsv(MultipartFile file) throws IOException {
+    @Transactional
+    public void uploadCsv(MultipartFile file) {
         try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
             List<Record> records = new ArrayList<>();
@@ -48,11 +52,10 @@ public class RecordService {
                     record.setSortingPriority(Integer.parseInt(csvRecord.get("sortingPriority")));
                 }
                 records.add(record);
-                System.out.println(csvRecord);
             }
             recordRepository.saveAll(records);
         } catch (Exception e) {
-            throw new IOException("Error processing file: " + e.getMessage());
+            throw new CsvProcessingException("Error processing the uploaded CSV file", e);
         }
     }
 

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.controller;
 
 import org.example.dto.RecordDto;
 import org.example.entity.Record;
@@ -22,18 +22,14 @@ public class RecordController {
 
     @GetMapping("/{code}")
     public ResponseEntity<RecordDto> getByCode(@PathVariable String code) {
-        Optional<RecordDto> record = service.getByCode(code);
-        return record.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        RecordDto record = service.getByCode(code);
+        return ResponseEntity.ok(record);
     }
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
             service.uploadCsv(file);
             return ResponseEntity.ok("File uploaded successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error processing file: " + e.getMessage());
-        }
     }
 
     @DeleteMapping

@@ -34,4 +34,10 @@ public class RecordController {
             return ResponseEntity.status(500).body("Error processing file: " + e.getMessage());
         }
     }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteAllRecords() {
+        service.deleteAllRecords();
+        return ResponseEntity.ok("All records deleted");
+    }
 }

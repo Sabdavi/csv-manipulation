@@ -54,4 +54,8 @@ public class RecordService {
             throw new IOException("Error processing file: " + e.getMessage());
         }
     }
+
+    public void deleteAllRecords() {
+        recordRepository.deleteAll();
+    }
 }

@@ -1,14 +1,12 @@
 package org.example.controller;
 
 import org.example.dto.RecordDto;
-import org.example.entity.Record;
 import org.example.service.RecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/records")

@@ -15,6 +15,8 @@ import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,8 @@ public class RecordService {
 
     @Transactional
     public void uploadCsv(MultipartFile file) {
+        String dateFormat = "dd-MM-yyyy";
+        DateTimeFormatter dataTimeFormatter = DateTimeFormatter.ofPattern(dateFormat);
         try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());
             List<Record> records = new ArrayList<>();
@@ -44,8 +48,8 @@ public class RecordService {
                 record.setCode(csvRecord.get("code"));
                 record.setDisplayValue(csvRecord.get("displayValue"));
                 record.setLongDescription(csvRecord.get("longDescription"));
-                record.setFromDate(csvRecord.get("fromDate"));
-                record.setToDate(csvRecord.get("toDate"));
+                record.setFromDate(parseDate(csvRecord.get("fromDate"), dataTimeFormatter));
+                record.setToDate(parseDate(csvRecord.get("toDate"), dataTimeFormatter));
                 if(!csvRecord.get("sortingPriority").isEmpty()) {
                     record.setSortingPriority(Integer.parseInt(csvRecord.get("sortingPriority")));
                 }
@@ -54,6 +58,14 @@ public class RecordService {
             recordRepository.saveAll(records);
         } catch (Exception e) {
             throw new CsvProcessingException("Error processing the uploaded CSV file", e);
+        }
+    }
+
+    private LocalDate parseDate(String date, DateTimeFormatter dateTimeFormatter) {
+        try {
+            return  (date != null && !date.isEmpty()) ? LocalDate.parse(date, dateTimeFormatter) : null;
+        } catch (Exception e) {
+            throw new CsvProcessingException("Error parsing date " + date, e);
         }
     }
 

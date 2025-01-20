@@ -1,13 +1,15 @@
 package org.example.dto;
 
+import java.time.LocalDate;
+
 public class RecordDto {
     private String source;
     private String codeListCode;
     private String code;
     private String displayValue;
     private String longDescription;
-    private String fromDate;
-    private String toDate;
+    private LocalDate fromDate;
+    private LocalDate toDate;
     private Integer sortingPriority;
 
     public String getSource() {
@@ -50,19 +52,19 @@ public class RecordDto {
         this.longDescription = longDescription;
     }
 
-    public String getFromDate() {
+    public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(String fromDate) {
+    public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
     }
 
-    public String getToDate() {
+    public LocalDate getToDate() {
         return toDate;
     }
 
-    public void setToDate(String toDate) {
+    public void setToDate(LocalDate toDate) {
         this.toDate = toDate;
     }
 

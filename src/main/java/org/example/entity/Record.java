@@ -3,6 +3,7 @@ package org.example.entity;
 import org.example.dto.RecordDto;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "records")
@@ -21,9 +22,9 @@ public class Record {
     @Column(name = "longDescription")
     private String longDescription;
     @Column(name = "fromDate")
-    private String fromDate;
+    private LocalDate fromDate;
     @Column(name = "toDate")
-    private String toDate;
+    private LocalDate toDate;
     @Column(name = "sortingPriority")
     private Integer sortingPriority;
 
@@ -75,19 +76,19 @@ public class Record {
         this.longDescription = longDescription;
     }
 
-    public String getFromDate() {
+    public LocalDate getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(String fromDate) {
+    public void setFromDate(LocalDate fromDate) {
         this.fromDate = fromDate;
     }
 
-    public String getToDate() {
+    public LocalDate getToDate() {
         return toDate;
     }
 
-    public void setToDate(String toDate) {
+    public void setToDate(LocalDate toDate) {
         this.toDate = toDate;
     }
 

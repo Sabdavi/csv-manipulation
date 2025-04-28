@@ -15,7 +15,6 @@ public class RecordController {
     private final RecordService service;
 
     public RecordController(RecordService service) {
-
         this.service = service;
     }
 
